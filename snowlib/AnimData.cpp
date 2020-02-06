@@ -6,6 +6,10 @@ void AnimData::BuildPerFrameFKPoses()
     perFrameFKPoses = new AnimPose[NumFrames * NumBones];
     glm::vec3* parentPoints = new glm::vec3[64];
     glm::quat* parentRotations = new glm::quat[64];
+    for (int idx = 0; idx < 64; ++idx) {
+        parentPoints[idx] = glm::vec3(0.0f, 0.0f, 0.0f);
+        parentRotations[idx] = glm::quat(0.0f, 0.0f, 0.0f, 1.0f);
+    }
     for (int frame = 0; frame < NumFrames; ++frame) {
         for (int jointNum = 0; jointNum < NumBones; ++jointNum) {
 

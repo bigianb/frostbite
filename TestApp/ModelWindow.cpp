@@ -170,7 +170,7 @@ void ModelWindow::drawMesh(Model* model, int frame)
 	glm::mat4 Projection = glm::perspective(45.0f, (float)screen_width / screen_height, 0.1f, 1000.0f);
     // Camera matrix
     glm::mat4 View       = glm::lookAt(
-                                        glm::vec3(0,-100,50), // Camera is at (0,-100,50), in World Space
+                                        glm::vec3(0,100,50), // Camera is at (0,100,50), in World Space
                                         glm::vec3(0,0,30), // and looks at
                                         glm::vec3(0,0,1)  // Head is up 
                             );
