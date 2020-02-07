@@ -25,7 +25,7 @@ TexturedMesh* readTexturedMesh(string dataPath, const char* lmpName, const char*
     VifDecoder vifDecoder;
     TexDecoder texDecoder;
 	texturedMesh->meshList = vifDecoder.decode(vifEntry->data,0);
-    texturedMesh->texture = texDecoder.decode(texEntry->data, 0);
+    texturedMesh->texture = texDecoder.decode(texEntry->data, texEntry->length);
     
 	for (auto& mesh : *texturedMesh->meshList){
 		mesh->adjustUVs(texturedMesh->texture->widthPixels, texturedMesh->texture->heightPixels);
@@ -66,7 +66,7 @@ int main(int argc, char **argv) {
     const char* lmpName = "DWARF.LMP";
     vector<string> meshNames;
     meshNames.push_back("dwarf");
- //   meshNames.push_back("hair");
+    meshNames.push_back("hair");
 
 	Model* model = readModel(dataPath, lmpName, meshNames, "l_idlea");
 

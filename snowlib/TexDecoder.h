@@ -6,8 +6,8 @@ class Palette;
 class TexDecoder
 {
 public:
-	Texture* decode(const unsigned char* data, int ps2Addr);
-	Texture* decode(int finalw, int finalh, const unsigned char* data, int curIdx);
+	Texture* decode(const unsigned char* data, int len);
+	Texture* decode(int finalw, int finalh, const unsigned char* data, int curIdx, int len);
 
 private:
     void readPixels32(const unsigned char* data, Palette* palette, int startOffset, int startx, int starty, int rrw, int rrh, int dbw, int dbh);

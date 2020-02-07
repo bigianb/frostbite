@@ -6,17 +6,17 @@
 
 #pragma optimize( "", off )
 
-Texture* TexDecoder::decode(const unsigned char* data, int ps2Addr)
+Texture* TexDecoder::decode(const unsigned char* data, int len)
 {
 	int finalw = DataUtil::getLEShort(data, 0);
 	int finalh = DataUtil::getLEShort(data, 02);	
 
 	int curIdx = DataUtil::getLEInt(data, 0x10);
 
-	return decode(finalw, finalh, data, curIdx - ps2Addr);
+	return decode(finalw, finalh, data, curIdx, len);
 }
 
-Texture* TexDecoder::decode(int finalw, int finalh, const unsigned char* data, int curIdx)
+Texture* TexDecoder::decode(int finalw, int finalh, const unsigned char* data, int curIdx, int len)
 {
 	int sourcew = finalw;
 	int sourceh = finalh;
@@ -56,7 +56,7 @@ Texture* TexDecoder::decode(int finalw, int finalh, const unsigned char* data, i
 		int totalRrw = 0;
 		bool eop = false;
 		// Need to find a better way than this.
-        while (!eop || totalRrw < dbw) {
+        while (curIdx < len && (!eop || totalRrw < dbw)) {
             GIFTag* gifTag3 = new GIFTag();
             gifTag3->parse(data, curIdx);
 
