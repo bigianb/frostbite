@@ -76,10 +76,17 @@ set(TESTAPP_SRC_FILES
   TestApp/ModelWindow.cpp
 )
 
+set(CUTTOWN_SRC_FILES
+  CuttownTest/Main.cpp
+)
+
 add_library(snowlib STATIC ${SNOWLIB_SRC_FILES})
 
 add_executable(testApp ${TESTAPP_SRC_FILES})
 target_link_libraries(testApp snowlib ${Boost_LIBRARIES} ${GLEW_LIBRARIES} SDL2::SDL2 SDL2::SDL2main opengl32.lib)
+
+add_executable(cuttownTest ${CUTTOWN_SRC_FILES})
+target_link_libraries(cuttownTest snowlib ${Boost_LIBRARIES} ${GLEW_LIBRARIES} SDL2::SDL2 SDL2::SDL2main opengl32.lib)
 
 #include(BoostTestHelpers.cmake)
 

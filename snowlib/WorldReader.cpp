@@ -48,7 +48,8 @@ void WorldReader::decodeWorldFile(World* world, const unsigned char* data, int d
 	int offset60 = DataUtil::getLEInt(data, 0x60);
 	int textureArrayOffset = DataUtil::getLEInt(data, 0x64);
 	int offset68 = DataUtil::getLEInt(data, 0x68);
-	int offsetTex6C = DataUtil::getLEInt(data, 0x6C);
+	int worldTexOffsetsOffset = DataUtil::getLEInt(data, 0x6C);
+
 }
 
 void WorldReader::decodeTopography(World* world, const unsigned char* data, int dataLength)
