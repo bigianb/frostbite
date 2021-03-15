@@ -9,6 +9,13 @@ set(PROJECT_NAME "Frostbite")
 set(PROJECT_Version 0.1)
 set(PROJECT_LIBS)
 
+# CMAKE_PREFIX_PATH evn var or cach var should be set to find Qt
+set(CMAKE_PREFIX_PATH "C:\\Qt\\6.0.2\\msvc2019_64")
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOUIC ON)
+find_package(Qt6 COMPONENTS Widgets REQUIRED)
+
 set(COVERAGE OFF CACHE BOOL "Coverage")
 
 set(Boost_USE_STATIC_LIBS        ON)
@@ -78,6 +85,8 @@ set(TESTAPP_SRC_FILES
 
 set(CUTTOWN_SRC_FILES
   CuttownTest/Main.cpp
+  CuttownTest/mainWindow.cpp
+  CuttownTest/mainWindow.h
 )
 
 add_library(snowlib STATIC ${SNOWLIB_SRC_FILES})
@@ -86,7 +95,5 @@ add_executable(testApp ${TESTAPP_SRC_FILES})
 target_link_libraries(testApp snowlib ${Boost_LIBRARIES} ${GLEW_LIBRARIES} SDL2::SDL2 SDL2::SDL2main opengl32.lib)
 
 add_executable(cuttownTest ${CUTTOWN_SRC_FILES})
-target_link_libraries(cuttownTest snowlib ${Boost_LIBRARIES} ${GLEW_LIBRARIES} SDL2::SDL2 SDL2::SDL2main opengl32.lib)
-
-#include(BoostTestHelpers.cmake)
+target_link_libraries(cuttownTest snowlib ${Boost_LIBRARIES} ${GLEW_LIBRARIES} SDL2::SDL2 SDL2::SDL2main opengl32.lib Qt6::Widgets)
 

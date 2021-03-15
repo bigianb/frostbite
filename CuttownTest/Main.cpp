@@ -1,5 +1,6 @@
 #pragma once
 #include "SDL.h"
+#include <QApplication>
 
 #include "windows.h"
 #include "LmpRepository.h"
@@ -13,9 +14,18 @@
 #include "WorldReader.h"
 #include "World.h"
 
+#include "mainWindow.h"
+
 LmpRepository* lmpRepository;
 
-int main(int argc, char **argv) {
+int main(int argc, char **argv)
+{
+	QApplication app(argc, argv);
+	//Q_INIT_RESOURCE(dockwidgets);
+	MainWindow mainWin;
+	mainWin.show();
+	return app.exec();
+	/*
 	string dataPath = "D:\\emu\\bgda\\BG\\DATA\\";
 	if (argc == 2){
 		dataPath = argv[1];
@@ -27,6 +37,7 @@ int main(int argc, char **argv) {
 
 	
 	return 0;
+	*/
 }
 
 
