@@ -27,3 +27,14 @@ https://github.com/microsoft/vcpkg/blob/master/docs/examples/installing-and-usin
 
 note that if you do `vcpkg integrate install` then you don't need to set the toolchain when using visual studio 2019
 
+## Qt specifics
+
+Installing Qt from the installer requires some mods to work. The path to Qt is hardcoded in the cmake file for the moment
+and when running from Visual Studio Code you need something like the following in the launch config so that the
+DLLs are found.
+
+```
+      "env": {
+        "path": "C:\\Qt\\6.0.2\\msvc2019_64\\bin;%PATH%"
+      }
+```
