@@ -1,43 +1,45 @@
 #pragma once
-#include "SDL.h"
-#include <QApplication>
 
-#include "windows.h"
-#include "LmpRepository.h"
-#include "GobFile.h"
-#include "VifDecoder.h"
-#include "TexDecoder.h"
-#include "AnimDecoder.h"
-#include "Model.h"
-#include "Texture.h"
-#include "AnimData.h"
-#include "WorldReader.h"
-#include "World.h"
+#include <QApplication>
+#include <QCommandLineParser>
 
 #include "mainWindow.h"
-
-LmpRepository* lmpRepository;
+#include "gameData.h"
 
 int main(int argc, char **argv)
 {
 	QApplication app(argc, argv);
+
+	QCoreApplication::setApplicationName("World Viewer");
+	QCoreApplication::setApplicationVersion("1.0");
+
+	QCommandLineParser parser;
+	parser.setApplicationDescription("World Viewer");
+	parser.addHelpOption();
+	parser.addVersionOption();
+
+	QCommandLineOption rootDirectoryOption(QStringList() << "r" << "root-directory",
+		"The root directory of the game.",
+		 "directory");
+	parser.addOption(rootDirectoryOption);
+
+	QCommandLineOption worldNameOption(QStringList() << "w" << "world",
+		"The name of the world to open.",
+		"worldname");
+	parser.addOption(worldNameOption);
+
+	parser.process(app);
+
+	QString rootDir = parser.value(rootDirectoryOption);
+	QString worldName = parser.value(worldNameOption);
+
 	//Q_INIT_RESOURCE(dockwidgets);
-	MainWindow mainWin;
+	GameData gameData;
+	gameData.read(rootDir, worldName);
+	MainWindow mainWin(gameData);
 	mainWin.show();
 	return app.exec();
-	/*
-	string dataPath = "D:\\emu\\bgda\\BG\\DATA\\";
-	if (argc == 2){
-		dataPath = argv[1];
-	}
-	lmpRepository = new LmpRepositoryImpl(dataPath, GameType::DARK_ALLIANCE);
-
-	GobFile cuttownGob = GobFile(dataPath + "CUTTOWN.GOB", GameType::DARK_ALLIANCE);
-	World* world = WorldReader().readWorld(&cuttownGob, "cuttown");
-
 	
-	return 0;
-	*/
 }
 
 

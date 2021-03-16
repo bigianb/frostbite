@@ -2,8 +2,8 @@
 #include <QtWidgets>
 #include "mainWindow.h"
 
-MainWindow::MainWindow()
-    : textEdit(new QTextEdit)
+MainWindow::MainWindow(GameData& gameDataIn)
+    : textEdit(new QTextEdit), gameData(gameDataIn)
 {
     setCentralWidget(textEdit);
 

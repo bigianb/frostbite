@@ -4,6 +4,8 @@
 
 #include <QMainWindow>
 
+#include "gameData.h"
+
 QT_BEGIN_NAMESPACE
 class QAction;
 class QListWidget;
@@ -17,7 +19,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow();
+    MainWindow(GameData& gameData);
 
 private slots:
     void about();
@@ -31,5 +33,7 @@ private:
     QListWidget* listWidget;
 
     QMenu* viewMenu;
+
+    GameData& gameData;
 };
 
