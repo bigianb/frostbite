@@ -62,6 +62,7 @@ set(SNOWLIB_SRC_FILES
   snowlib/AnimData.cpp
   snowlib/AnimDecoder.cpp
   snowlib/FntDecoder.cpp
+  snowlib/GameRegion.h
   snowlib/GameType.h
   snowlib/GIFTag.cpp
   snowlib/GobFile.cpp
