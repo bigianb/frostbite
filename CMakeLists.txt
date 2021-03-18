@@ -9,8 +9,11 @@ set(PROJECT_NAME "Frostbite")
 set(PROJECT_Version 0.1)
 set(PROJECT_LIBS)
 
-# CMAKE_PREFIX_PATH evn var or cach var should be set to find Qt
-set(CMAKE_PREFIX_PATH "C:\\Qt\\6.0.2\\msvc2019_64")
+# Use this to find Qt on windows
+if(ADDITIONAL_FIND_PATH)
+    list(APPEND CMAKE_PREFIX_PATH ${ADDITIONAL_FIND_PATH})
+endif()
+
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
@@ -18,16 +21,13 @@ find_package(Qt6 COMPONENTS Widgets REQUIRED)
 
 set(COVERAGE OFF CACHE BOOL "Coverage")
 
-set(Boost_USE_STATIC_LIBS        ON)
-find_package(Boost REQUIRED COMPONENTS program_options filesystem)
-if(Boost_FOUND)
-  include_directories(${Boost_INCLUDE_DIRS})
-endif()
+
+find_package(SDL2 REQUIRED)
 
 find_package(GLM REQUIRED)
 include_directories(${GLM_INCLUDE_DIR})
 
-find_package(SDL2 REQUIRED)
+
 
 find_package(GLEW REQUIRED)
 include_directories(${GLEW_INCLUDE_DIR})
@@ -99,4 +99,5 @@ target_link_libraries(testApp snowlib ${Boost_LIBRARIES} ${GLEW_LIBRARIES} SDL2:
 
 add_executable(cuttownTest ${CUTTOWN_SRC_FILES})
 target_link_libraries(cuttownTest snowlib ${Boost_LIBRARIES} ${GLEW_LIBRARIES} SDL2::SDL2 SDL2::SDL2main opengl32.lib Qt6::Widgets)
+set_target_properties(cuttownTest PROPERTIES VS_DEBUGGER_ENVIRONMENT "PATH=${Qt6Core_DIR}\\..\\..\\..\\bin;${Qt6Core_DIR}\\..\\..\\..\\plugins\\platforms")
 
