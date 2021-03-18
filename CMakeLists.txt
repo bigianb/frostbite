@@ -87,6 +87,8 @@ set(TESTAPP_SRC_FILES
 set(CUTTOWN_SRC_FILES
   CuttownTest/gameData.cpp
   CuttownTest/gameData.h
+  CuttownTest/infoPanel.cpp
+  CuttownTest/infoPanel.h
   CuttownTest/Main.cpp
   CuttownTest/mainWindow.cpp
   CuttownTest/mainWindow.h

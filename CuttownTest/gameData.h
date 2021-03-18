@@ -5,10 +5,14 @@
 #include "GameType.h"
 #include "GameRegion.h"
 
+class GobFile;
+class World;
+
 class GameData
 {
 public:
-    GameData() : gameRegion(GameRegion::UNKNOWN), gameType(GameType::UNKNOWN) {}
+    GameData();
+    ~GameData();
 
     void read(QString rootDir, QString worldName);
 
@@ -21,6 +25,10 @@ private:
 
     /* Relative path from the root where the data files live. */
     QString dataRelPath;
+
+    GobFile* worldGob;
+    World* world;
+
 
 private:
     void findGame(QString rootDir);

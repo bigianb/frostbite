@@ -14,18 +14,37 @@
 #include "WorldReader.h"
 #include "World.h"
 
+GameData::GameData() : gameRegion(GameRegion::UNKNOWN), gameType(GameType::UNKNOWN)
+{
+	worldGob = nullptr;
+	world = nullptr;
+}
+
+GameData::~GameData()
+{
+	delete worldGob; worldGob = nullptr;
+	delete world; world = nullptr;
+}
+
 void GameData::read(QString rootDir, QString worldName) 
 {
 	this->rootDir = rootDir;
 	gameType = GameType::UNKNOWN;
+	delete worldGob; worldGob = nullptr;
+	delete world; world = nullptr;
+
+	if (rootDir.isEmpty()) {
+		return;
+	}
+
 	findGame(rootDir);
 	if (gameType != GameType::UNKNOWN) {
-		QString lmpDir = rootDir + dataRelPath;
-		LmpRepository* lmpRepository = new LmpRepositoryImpl(lmpDir.toStdString(), gameType);
+		QString lmpDir = rootDir + "/" + dataRelPath;
+		//LmpRepository* lmpRepository = new LmpRepositoryImpl(lmpDir.toStdString(), gameType);
 
-		QString gobFile = lmpDir + "CUTTOWN.GOB";
-		GobFile cuttownGob = GobFile(gobFile.toStdString(), gameType);
-		World* world = WorldReader().readWorld(&cuttownGob, "cuttown");
+		QString gobFile = lmpDir + "/" + worldName.toUpper() + ".GOB";
+		worldGob = new GobFile(gobFile.toStdString(), gameType);
+		world = WorldReader().readWorld(worldGob, worldName.toLower().toStdString().c_str());
 	}
 }
 

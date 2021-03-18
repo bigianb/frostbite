@@ -13,6 +13,7 @@ class QMenu;
 class QTextEdit;
 QT_END_NAMESPACE
 
+class InfoPanel;
 
 class MainWindow : public QMainWindow
 {
@@ -30,7 +31,7 @@ private:
     void createDockWindows();
 
     QTextEdit* textEdit;
-    QListWidget* listWidget;
+    InfoPanel* infoPanel;
 
     QMenu* viewMenu;
 

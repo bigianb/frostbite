@@ -1,6 +1,7 @@
 
 #include <QtWidgets>
 #include "mainWindow.h"
+#include "InfoPanel.h"
 
 MainWindow::MainWindow(GameData& gameDataIn)
     : textEdit(new QTextEdit), gameData(gameDataIn)
@@ -15,8 +16,6 @@ MainWindow::MainWindow(GameData& gameDataIn)
 
     setUnifiedTitleAndToolBarOnMac(true);
 }
-
-
 
 void MainWindow::about()
 {
@@ -53,13 +52,11 @@ void MainWindow::createStatusBar()
 
 void MainWindow::createDockWindows()
 {
-    QDockWidget* dock = new QDockWidget(tr("Structure"), this);
+    QDockWidget* dock = new QDockWidget(tr("Info"), this);
     dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    listWidget = new QListWidget(dock);
-    listWidget->addItems(QStringList()
-        << "xxx"
-        );
-    dock->setWidget(listWidget);
+    infoPanel = new InfoPanel(dock, gameData);
+    dock->setWidget(infoPanel->getWidget());
+
     addDockWidget(Qt::LeftDockWidgetArea, dock);
     viewMenu->addAction(dock->toggleViewAction());
 }
