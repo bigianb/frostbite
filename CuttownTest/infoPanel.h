@@ -1,6 +1,9 @@
 #pragma once
 
+#include <QString>
+
 class QWidget;
+class QTableWidget;
 class GameData;
 
 class InfoPanel
@@ -12,7 +15,11 @@ public:
     QWidget* getWidget();
 
 private:
-    QWidget* widget;
+    void populateGamedata();
+    void addRow(const char* name, QString val);
+
+private:
+    QTableWidget* widget;
     GameData& gameData;
 };
 
