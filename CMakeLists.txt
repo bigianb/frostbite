@@ -59,22 +59,45 @@ endif()
 
 set(SNOWLIB_SRC_FILES
   snowlib/AnimationProcessor.cpp
+  snowlib/AnimationProcessor.h
   snowlib/AnimData.cpp
+  snowlib/AnimData.h
   snowlib/AnimDecoder.cpp
+  snowlib/AnimDecoder.h
+  snowlib/DataAccess.h
+  snowlib/DataUtil.h
   snowlib/FntDecoder.cpp
+  snowlib/FntDecoder.h
   snowlib/GameRegion.h
   snowlib/GameType.h
   snowlib/GIFTag.cpp
+  snowlib/GIFTag.h
   snowlib/GobFile.cpp
+  snowlib/GobFile.h
   snowlib/Helpers.cpp
+  snowlib/Helpers.h
   snowlib/LmpFile.cpp
+  snowlib/LmpFile.h
   snowlib/LmpRepository.cpp
+  snowlib/LmpRepository.h
   snowlib/Logger.cpp
+  snowlib/Logger.h
   snowlib/Mesh.cpp
+  snowlib/Mesh.h
+  snowlib/Model.h
+  snowlib/Palette.h
+  snowlib/Scene.h
   snowlib/TexDecoder.cpp
+  snowlib/TexDecoder.h
+  snowlib/Texture.h
+  snowlib/VertexDefs.h
+  snowlib/VertexWeight.h
   snowlib/VifDecoder.cpp
+  snowlib/VifDecoder.h
   snowlib/World.cpp
-  snowlib/WorldReader.cpp  
+  snowlib/World.h
+  snowlib/WorldReader.cpp
+  snowlib/WorldReader.h
   )
   
 include_directories("${FROSTBITE_SOURCE_DIR}/snowlib")

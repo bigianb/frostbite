@@ -41,8 +41,8 @@ void GameData::read(QString rootDir, QString worldName)
 	if (gameType != GameType::UNKNOWN) {
 		QString lmpDir = rootDir + "/" + dataRelPath;
 		//LmpRepository* lmpRepository = new LmpRepositoryImpl(lmpDir.toStdString(), gameType);
-
-		QString gobFile = lmpDir + "/" + worldName.toUpper() + ".GOB";
+		gobName = worldName.toUpper() + ".GOB";
+		QString gobFile = lmpDir + "/" + gobName;
 		worldGob = new GobFile(gobFile.toStdString(), gameType);
 		world = WorldReader().readWorld(worldGob, worldName.toLower().toStdString().c_str());
 	}

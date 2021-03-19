@@ -16,6 +16,11 @@ public:
 
     void read(QString rootDir, QString worldName);
 
+    QString getGobName() { return gobName; }
+    QString getRootDir() { return rootDir; }
+
+    World* getWorld() { return world;  }
+
 private:
     GameRegion gameRegion;
     GameType gameType;
@@ -26,6 +31,7 @@ private:
     /* Relative path from the root where the data files live. */
     QString dataRelPath;
 
+    QString gobName;
     GobFile* worldGob;
     World* world;
 
