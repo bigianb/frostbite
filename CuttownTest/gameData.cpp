@@ -44,7 +44,7 @@ void GameData::read(QString rootDir, QString worldName)
 		gobName = worldName.toUpper() + ".GOB";
 		QString gobFile = lmpDir + "/" + gobName;
 		worldGob = new GobFile(gobFile.toStdString(), gameType);
-		world = WorldReader().readWorld(worldGob, worldName.toLower().toStdString().c_str());
+		world = WorldReader(gameType).readWorld(worldGob, worldName.toLower().toStdString().c_str());
 	}
 }
 

@@ -60,4 +60,8 @@ public:
 	// All of the topo patches. This collection owns the patches.
 	std::vector<TopoPatch*> topoPatches;
 
+	// The texture chunk offsets. 2D array with a 100 x 100 dimension.
+	std::vector<int> textureChunkOffsets;
+
+	void setTextureChunkOffset(int x, int y, int addr) { textureChunkOffsets.at(y * 100 + x) = addr; }
 };

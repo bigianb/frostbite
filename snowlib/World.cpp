@@ -1,6 +1,6 @@
 #include "World.h"
 
-World::World()
+World::World() : textureChunkOffsets(100*100, 0)
 {
 	topoStartCol = 0;
 	topoStartRow = 0;

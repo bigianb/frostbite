@@ -50,6 +50,33 @@ void WorldReader::decodeWorldFile(World* world, const unsigned char* data, int d
 	int offset68 = DataUtil::getLEInt(data, 0x68);
 	int worldTexOffsetsOffset = DataUtil::getLEInt(data, 0x6C);
 
+	readTextureChunkOffsets(world, data, dataLength, worldTexOffsetsOffset, texMinx, texMiny, texMaxx+1, texMaxy);
+}
+
+void WorldReader::readTextureChunkOffsets(World* world, const unsigned char* data, int dataLength, int worldTexOffsetsOffset, int texMinx, int texMiny, int texMaxx, int texMaxy)
+{
+	for (int y = texMiny; y <= texMaxy; ++y)
+	{
+		for (int x = texMinx; x <= texMaxx; ++x)
+		{
+			int cellOffset = ((y - texMiny) * 100 + x - texMinx) * 8;
+			// This test is needed to deal with town.world in BGDA which addresses textures outside of the maximum x range.
+			if (dataLength >=  cellOffset + 4)
+			{
+				int addr;
+				if (GameType::CHAMPIONS_RTA == gameType || GameType::JL_HEROES == gameType)
+				{
+					// TODO: Figure out what this should really be
+					addr = 0x800;
+				}
+				else
+				{
+					addr = DataUtil::getLEInt(data, cellOffset);
+				}
+				world->setTextureChunkOffset(x, y, addr);
+			}
+		}
+	}
 }
 
 void WorldReader::decodeTopography(World* world, const unsigned char* data, int dataLength)
