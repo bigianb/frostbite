@@ -18,10 +18,17 @@ World::~World()
 	{
 		delete patch;
 	}
+	for (auto& element : elements)
+	{
+		delete element;
+	}
 }
 
 TopoPatch::TopoPatch(int width, int height)
 {
+	minHeight = 0;
+	maxHeight = 0;
+	x0 = y0 = 0;
 	w = width;
 	h = height;
 	heights = new int[w * h];
@@ -29,5 +36,5 @@ TopoPatch::TopoPatch(int width, int height)
 
 TopoPatch::~TopoPatch()
 {
-	delete[] heights;
+	delete[] heights; heights = nullptr;
 }

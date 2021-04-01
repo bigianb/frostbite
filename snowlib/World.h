@@ -1,6 +1,9 @@
 #pragma once
 
 #include <vector>
+#include <memory>
+#include "VertexDefs.h"
+#include "Model.h"
 
 class TopoPatch
 {
@@ -18,11 +21,33 @@ class TopoElement
 public:
 	int llx, lly, urx, ury;
 	int int8;
-	TopoPatch* patch;
+	std::shared_ptr<TopoPatch> patch;
 	int flags;
 	int x0, y0;
 	int baseHeight;
 	double cos_alpha, sin_alpha;
+};
+
+class WorldElement
+{
+public:
+	FloatBox boundingBox;
+	TexturedMesh mesh;
+
+	// The position before rotation
+	FloatVector pos;
+
+	bool usesRotFlags;
+	int xyzRotFlags;
+
+	double cosAlpha;
+	double sinAlpha;
+	// Whether we should flip the y axis (when not using rot flags)
+	bool negYaxis;
+
+	// Store info to access again
+	int VifDataOffset;
+	int VifDataLength;
 };
 
 class World
@@ -59,6 +84,9 @@ public:
 
 	// All of the topo patches. This collection owns the patches.
 	std::vector<TopoPatch*> topoPatches;
+
+	// All of the elements. This collection owns the elements.
+	std::vector<WorldElement*> elements;
 
 	// The texture chunk offsets. 2D array with a 100 x 100 dimension.
 	std::vector<int> textureChunkOffsets;

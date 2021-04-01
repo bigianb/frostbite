@@ -7,6 +7,17 @@
 class Mesh
 {
 public:
+	Mesh() {
+		positions = normals = nullptr;
+		uvCoords = nullptr;
+		numVertices = 0;
+	}
+	~Mesh() {
+		delete positions; positions = nullptr;
+		delete normals; normals = nullptr;
+		delete uvCoords; uvCoords = nullptr;
+	}
+
 	std::vector<int> triangleIndices;
 	FloatVector* positions;
 	FloatVector* normals;

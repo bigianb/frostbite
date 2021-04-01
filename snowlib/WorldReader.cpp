@@ -2,6 +2,7 @@
 #include "World.h"
 #include "LmpRepository.h"
 #include "DataUtil.h"
+#include "VifDecoder.h"
 
 World* WorldReader::readWorld(LmpRepository* lmpRepository, const char* name)
 {
@@ -51,6 +52,66 @@ void WorldReader::decodeWorldFile(World* world, const unsigned char* data, int d
 	int worldTexOffsetsOffset = DataUtil::getLEInt(data, 0x6C);
 
 	readTextureChunkOffsets(world, data, dataLength, worldTexOffsetsOffset, texMinx, texMiny, texMaxx+1, texMaxy);
+	readElements(world, data, dataLength, elementBase, numElements, texMinx, texMiny);
+}
+
+void WorldReader::readElements(World* world, const unsigned char* data, int dataLength, int elementBase, int numElements, int texMinx, int texMiny)
+{
+	for (int idx = 0; idx < numElements; ++idx) {
+		auto element = new WorldElement();
+		int elementSize = 0x38;
+		if (GameType::CHAMPIONS_RTA == gameType || GameType::JL_HEROES == gameType) {
+			elementSize = 0x3C;
+		}
+		int elementOffset = elementBase + idx * elementSize;
+
+		DataUtil reader(data, elementOffset);
+
+		int vifDataOffset = reader.getLEInt();
+		
+		if (GameType::DARK_ALLIANCE == gameType) {
+			int Tex2 = reader.getLEInt();
+		}
+		int vifLen = reader.getLEInt();
+		float x1 = reader.getLEFloat();
+		float y1 = reader.getLEFloat();
+		float z1 = reader.getLEFloat();
+		float x2 = reader.getLEFloat();
+		float y2 = reader.getLEFloat();
+		float z2 = reader.getLEFloat();
+
+		element->boundingBox = FloatBox(x1, y1, z1, x2 - x1, y2 - y1, z2 - z1);
+
+		int textureNum = reader.getLEInt() / 0x40;
+
+		int texCellxy = reader.getLEUShort();
+		int y = texCellxy / 100;
+		int x = texCellxy % 100;
+		if (GameType::CHAMPIONS_RTA == gameType || GameType::JL_HEROES == gameType) {
+			x += texMinx;
+			y += texMiny;
+		}
+		if (textureNum != 0) {
+			// TODO
+		}
+		int texWidth = 100;
+		int texHeight = 100;
+		/*
+		if (element.Texture != null)
+		{
+			texWidth = element.Texture.PixelWidth;
+			texHeight = element.Texture.PixelHeight;
+		}
+		*/
+		unsigned char nregs = data[vifDataOffset + 0x10];
+		int vifStartOffset = (nregs + 2) * 0x10;
+		int vifDataLength = vifLen * 0x10 - vifStartOffset;
+		
+		element->mesh.meshList = VifDecoder().decode(data, vifDataOffset + vifStartOffset);
+
+
+		world->elements.push_back(element);
+	}
 }
 
 void WorldReader::readTextureChunkOffsets(World* world, const unsigned char* data, int dataLength, int worldTexOffsetsOffset, int texMinx, int texMiny, int texMaxx, int texMaxy)
@@ -91,7 +152,7 @@ void WorldReader::decodeTopography(World* world, const unsigned char* data, int 
 	int topoArrayOffset = DataUtil::getLEInt(data, 0x20);
 
 	// Allows us to quickly look up patches from the offsets stored in the file.
-	std::unordered_map<int, TopoPatch*> patchAddressMap;
+	std::unordered_map<int, std::shared_ptr<TopoPatch>> patchAddressMap;
 
 	world->topoElements.resize(numTopoElements);
 	for (int el = 0; el < numTopoElements; ++el){
@@ -138,11 +199,11 @@ void WorldReader::decodeTopography(World* world, const unsigned char* data, int 
 	}
 }
 
-TopoPatch* WorldReader::readTopoPatch(const unsigned char* data, int offset)
+std::shared_ptr<TopoPatch> WorldReader::readTopoPatch(const unsigned char* data, int offset)
 {
 	int w = DataUtil::getLEInt(data, offset + 8);
 	int h = DataUtil::getLEInt(data, offset + 0x0c);
-	TopoPatch* patch = new TopoPatch(w, h);
+	auto patch = std::make_shared<TopoPatch>(w, h);
 	patch->x0 = DataUtil::getLEInt(data, offset);
 	patch->y0 = DataUtil::getLEInt(data, offset + 4);
 	patch->minHeight = DataUtil::getLEShort(data, offset + 0x10);
